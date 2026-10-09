@@ -36,6 +36,11 @@ jobs:
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
+      # Chart version N deploys the image N: the agent release must have published it, publicly.
+      - name: Check that the agent image is published
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: docker buildx imagetools inspect "ghcr.io/samytsb/onicost-agent:${VERSION}" > /dev/null
       # The same checks as ci.yml: a tag on a commit that never passed them must not publish a chart.
       - name: Check the chart
         run: ./scripts/check.sh
