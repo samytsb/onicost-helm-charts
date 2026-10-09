@@ -8,6 +8,10 @@ All notable changes to this repository are documented here. The format follows [
 
 - `values.schema.json` rejects an `endpoint` or a `proxy.url` that is not an `http://` or `https://` URL, and an `endpoint` with credentials, a query or a fragment: such a value now fails `helm upgrade` instead of the agent at startup.
 
+### Fixed
+
+- `podLabels: null` is treated as empty instead of failing the rendering.
+
 ## [0.1.0] - 2026-10-06
 
 ### Added

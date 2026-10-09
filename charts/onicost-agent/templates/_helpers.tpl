@@ -36,5 +36,5 @@ that podLabels can never change the selector.
 */}}
 {{- define "onicost-agent.podLabels" -}}
 {{- $labels := include "onicost-agent.labels" . | fromYaml -}}
-{{- toYaml (merge $labels .Values.podLabels) -}}
+{{- toYaml (merge $labels (.Values.podLabels | default dict)) -}}
 {{- end -}}
