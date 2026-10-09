@@ -75,7 +75,15 @@ Port `8080`, named `http`, serves:
 
 - `/healthz`: the process responds;
 - `/readyz`: `200` once the inventory caches are synced and collection has started, `503` before that and during shutdown;
-- `/metrics`: metrics in the Prometheus text format (version, ready state, buffered, accepted and dropped batches, scrape errors).
+- `/metrics`: metrics in the Prometheus text format:
+  - `onicost_agent_build_info`: gauge, `1`, with the label `version`;
+  - `onicost_agent_ready`: gauge, `1` once the inventory caches are synced, `0` before and during shutdown;
+  - `onicost_agent_buffered_batches`: gauge, batches waiting to be sent;
+  - `onicost_agent_accepted_batches_total`: counter, batches accepted by the gateway;
+  - `onicost_agent_dropped_batches_total`: counter, batches refused by the gateway, too old or beyond the buffer bound;
+  - `onicost_agent_scrape_errors_total`: counter, failed kubelet scrapes.
+
+The chart creates no Service. For a Prometheus that discovers pods through the `prometheus.io/*` annotations, pass them as strings: `--set-string 'podAnnotations.prometheus\.io/scrape=true' --set-string 'podAnnotations.prometheus\.io/port=8080'`. With `--set`, `true` and `8080` become a boolean and a number, which the schema refuses.
 
 As long as the token Secret does not exist, the pod stays in `ContainerCreating` (`FailedMount` event). A new token written to the Secret reaches the mounted file within one to two minutes, without restarting the pod.
 
