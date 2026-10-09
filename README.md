@@ -18,14 +18,14 @@ Onicost is a SaaS FinOps application: it computes the costs of Kubernetes cluste
 The full install command, which also creates the agent token Secret, is given by the Onicost interface. Its Helm part:
 
 ```bash
-helm upgrade --install onicost-agent oci://ghcr.io/samytsb/charts/onicost-agent --version 0.1.0 \
+helm upgrade --install onicost-agent oci://ghcr.io/samytsb/charts/onicost-agent --version <version> \
   --namespace onicost --reset-then-reuse-values --set endpoint=<gateway URL>
 ```
 
-Pull a given version of the chart:
+Pull a given version of the chart (versions are listed in the [CHANGELOG](CHANGELOG.md)):
 
 ```bash
-helm pull oci://ghcr.io/samytsb/charts/onicost-agent --version 0.1.0
+helm pull oci://ghcr.io/samytsb/charts/onicost-agent --version <version>
 ```
 
 ## Commands

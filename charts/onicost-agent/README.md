@@ -20,7 +20,7 @@ The chart creates neither the namespace nor the token Secret, and accepts no tok
 The full install command, with the token, is given by the Onicost interface, when a cluster is created and at each rotation of its token. It prompts for the token without echoing it, creates the `onicost` namespace and the `onicost-agent-token` Secret with server-side apply (the token goes through the standard input of `kubectl`, never through a command line or the values), then installs or upgrades the release:
 
 ```bash
-helm upgrade --install onicost-agent oci://ghcr.io/samytsb/charts/onicost-agent --version 0.1.0 \
+helm upgrade --install onicost-agent oci://ghcr.io/samytsb/charts/onicost-agent --version <version> \
   --namespace onicost --reset-then-reuse-values --set endpoint=<gateway URL>
 ```
 
