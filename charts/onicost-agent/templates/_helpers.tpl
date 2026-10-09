@@ -2,7 +2,7 @@
 Name of every object of the chart: the name of the release.
 */}}
 {{- define "onicost-agent.fullname" -}}
-{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- .Release.Name -}}
 {{- end -}}
 
 {{/*
