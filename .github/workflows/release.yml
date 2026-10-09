@@ -49,6 +49,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: helm registry login ghcr.io -u "$GITHUB_ACTOR" --password-stdin <<< "$GITHUB_TOKEN"
+      - name: Refuse to overwrite a published version
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if helm show chart oci://ghcr.io/samytsb/charts/onicost-agent --version "$VERSION" > /dev/null 2>&1; then
+            echo "version $VERSION is already published"
+            exit 1
+          fi
       - name: Push the chart
         env:
           VERSION: ${{ steps.version.outputs.version }}
