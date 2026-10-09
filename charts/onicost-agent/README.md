@@ -67,7 +67,7 @@ Lists on the command line: `--set 'exclude.namespaces={kube-system,monitoring}'`
 - The pod meets the `restricted` level of the Pod Security Standards: it is admitted in a namespace that enforces this level (`pod-security.kubernetes.io/enforce=restricted`).
 - RBAC permissions are read-only: no write permission, no access to Secrets or ConfigMaps. `GET /version` is already allowed by the `system:public-info-viewer` role.
 - The token is mounted from its Secret by the kubelet: the agent reads no Secret through the API, and the token appears neither in the values nor in the release manifest.
-- **Proxy with credentials.** Credentials in `proxy.url` (`http://user:password@proxy:3128`) are accepted, but they stay in clear text in the release values: `helm get values` shows them, and the Helm release Secret contains them. The agent does not write them to its logs.
+- **Proxy with credentials.** Credentials in `proxy.url` (`http://user:password@proxy:3128`) are accepted, but they stay in clear text in the release values: `helm get values` shows them, and the Helm release Secret contains them. The chart also renders `proxy.url` as the plain value of the `ONICOST_PROXY_URL` variable, so the credentials appear in the Deployment and pod specs (`kubectl get deployment -o yaml`, `kubectl describe pod`), readable by anyone with `get` on pods or deployments in the namespace, a wider audience than the release Secret. When that is not acceptable, use a proxy without credentials in the URL, or control access at the network level. The agent does not write the credentials to its logs.
 
 ## Probes and metrics
 
