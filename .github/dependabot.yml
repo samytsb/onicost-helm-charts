@@ -1,4 +1,4 @@
-# Dependabot: weekly version updates (minor and patch grouped in one pull request) and security updates.
+# Dependabot: weekly version updates of the GitHub Actions, and security updates.
 version: 2
 updates:
   - package-ecosystem: github-actions
