@@ -33,3 +33,13 @@ jobs:
             echo 'schema did not refuse an unknown key'
             exit 1
           fi
+      - name: The schema refuses an endpoint or a proxy URL that is not an http(s) URL
+        run: |
+          if helm template onicost-agent charts/onicost-agent --set endpoint=ingest.example.test > /dev/null; then
+            echo 'schema did not refuse an endpoint without an http(s) scheme'
+            exit 1
+          fi
+          if helm template onicost-agent charts/onicost-agent --set endpoint=https://ingest.example.test --set proxy.url=socks5://proxy:1080 > /dev/null; then
+            echo 'schema did not refuse a proxy URL without an http(s) scheme'
+            exit 1
+          fi

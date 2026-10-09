@@ -19,7 +19,8 @@
     },
     "endpoint": {
       "description": "Base URL of the ingestion gateway, without a trailing slash. Required: the templates fail when it is empty.",
-      "type": "string"
+      "type": "string",
+      "pattern": "^(|https?://[^/?#@]+(/[^?#]*)?)$"
     },
     "token": {
       "type": "object",
@@ -82,7 +83,8 @@
       "properties": {
         "url": {
           "description": "Outgoing HTTP proxy used to reach the gateway. Empty: direct connection.",
-          "type": "string"
+          "type": "string",
+          "pattern": "^(|https?://[^/?#]+(/[^?#]*)?)$"
         }
       }
     },

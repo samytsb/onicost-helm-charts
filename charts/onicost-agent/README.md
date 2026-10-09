@@ -38,7 +38,7 @@ To move to another chart version, rerun only the `helm` part of the command with
 
 | Key | Default | Meaning |
 |---|---|---|
-| `endpoint` | `""` | Required: rendering fails when it is empty. Base URL of the gateway, without a trailing `/`; the agent appends `/v1/ingest/usage` and `/v1/ingest/inventory` to it |
+| `endpoint` | `""` | Required: rendering fails when it is empty. Base URL of the gateway (`http://` or `https://`), without a trailing `/`; the agent appends `/v1/ingest/usage` and `/v1/ingest/inventory` to it |
 | `token.existingSecret` | `onicost-agent-token` | Existing Secret of the release namespace that holds the token. Not empty |
 | `token.secretKey` | `token` | Key of the token in that Secret, mounted as the file `token`. Not empty |
 | `kubelet.insecureSkipVerify` | `false` | `false`: the certificate of each kubelet is verified with the cluster authority. `true`: no verification, for kubelets with self-signed certificates |
