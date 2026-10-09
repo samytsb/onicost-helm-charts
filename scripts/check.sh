@@ -53,3 +53,4 @@ refuses schema "${endpoint[@]}" --set scrapeInterval=45s
 refuses schema "${endpoint[@]}" --set image.pullPolicy=Sometimes
 refuses schema "${endpoint[@]}" --set token.existingSecret=
 refuses schema "${endpoint[@]}" --set token.secretKey=
+refuses schema "${endpoint[@]}" --set image.repository=

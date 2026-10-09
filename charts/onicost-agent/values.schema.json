@@ -94,7 +94,9 @@
       "required": ["repository", "tag", "pullPolicy"],
       "properties": {
         "repository": {
-          "type": "string"
+          "description": "Image repository. Not empty.",
+          "type": "string",
+          "minLength": 1
         },
         "tag": {
           "description": "Empty: the appVersion of the chart.",

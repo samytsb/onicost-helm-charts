@@ -46,7 +46,7 @@ To move to another chart version, rerun only the `helm` part of the command with
 | `exclude.namespaces` | `[]` | Exact names of the namespaces of which nothing is sent: neither the namespace, nor its workloads, nor the usage of its containers, nor its PVCs and their PVs |
 | `exclude.labelKeys` | `[]` | Exact label keys removed before sending (nodes, namespaces, workloads) |
 | `proxy.url` | `""` | Outgoing HTTP proxy (`http://` or `https://`), used only to reach the gateway. Empty: direct connection |
-| `image.repository` | `ghcr.io/samytsb/onicost-agent` | Image repository |
+| `image.repository` | `ghcr.io/samytsb/onicost-agent` | Image repository. Not empty |
 | `image.tag` | `""` | Empty: the chart `appVersion` |
 | `image.pullPolicy` | `IfNotPresent` | `Always`, `IfNotPresent` or `Never` |
 | `resources` | requests `cpu: 50m`, `memory: 64Mi`; limits `memory: 256Mi` | Container resources. No CPU limit; the memory limit covers the two-hour buffer |

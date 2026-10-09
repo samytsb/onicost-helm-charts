@@ -7,6 +7,7 @@ All notable changes to this repository are documented here. The format follows [
 ### Changed
 
 - `values.schema.json` rejects an `endpoint` or a `proxy.url` that is not an `http://` or `https://` URL, and an `endpoint` with credentials, a query or a fragment: such a value now fails `helm upgrade` instead of the agent at startup.
+- `values.schema.json` rejects an empty `image.repository`.
 
 ### Fixed
 
