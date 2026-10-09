@@ -49,7 +49,7 @@ To move to another chart version, rerun only the `helm` part of the command with
 | `image.repository` | `ghcr.io/samytsb/onicost-agent` | Image repository. Not empty |
 | `image.tag` | `""` | Empty: the chart `appVersion` |
 | `image.pullPolicy` | `IfNotPresent` | `Always`, `IfNotPresent` or `Never` |
-| `resources` | requests `cpu: 50m`, `memory: 64Mi`; limits `memory: 256Mi` | Container resources. No CPU limit; the memory limit covers the two-hour buffer |
+| `resources` | requests `cpu: 50m`, `memory: 64Mi`; limits `memory: 256Mi` | Container resources. No CPU limit; the memory limit covers the send buffer (at most two hours and 64 MiB), and the agent sets the soft memory limit of the Go runtime to 90% of it |
 | `imagePullSecrets` | `[]` | List of `{name: <Secret>}` objects |
 | `podAnnotations` | `{}` | Pod annotations, string values |
 | `podLabels` | `{}` | Labels added to the pod, string values. Cannot override the chart labels, including the selector labels |
