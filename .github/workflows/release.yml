@@ -25,14 +25,20 @@ jobs:
       - uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
         with:
           version: v4.3.0
-      - name: Check that the tag matches the chart version
+      - name: Check the tag against Chart.yaml and the CHANGELOG
         id: version
         run: |
           version="${GITHUB_REF_NAME#onicost-agent-}"
-          chart_version="$(helm show chart charts/onicost-agent | sed -n 's/^version: *//p' | tr -d '"')"
-          app_version="$(helm show chart charts/onicost-agent | sed -n 's/^appVersion: *//p' | tr -d '"')"
+          chart="$(helm show chart charts/onicost-agent)"
+          chart_version="$(sed -n 's/^version: *//p' <<< "$chart" | tr -d '"')"
+          app_version="$(sed -n 's/^appVersion: *//p' <<< "$chart" | tr -d '"')"
           if [ "$version" != "$chart_version" ] || [ "$version" != "$app_version" ]; then
             echo "tag $GITHUB_REF_NAME does not match version $chart_version and appVersion $app_version of Chart.yaml"
+            exit 1
+          fi
+          # A release candidate needs no CHANGELOG entry.
+          if [ "${version%%-*}" = "$version" ] && ! grep -qF "## [${version}]" CHANGELOG.md; then
+            echo "CHANGELOG.md has no entry for $version"
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
