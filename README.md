@@ -31,8 +31,8 @@ helm pull oci://ghcr.io/samytsb/charts/onicost-agent --version 0.1.0
 ## Commands
 
 ```bash
-# Lint the chart
-helm lint charts/onicost-agent --strict
+# Lint the chart, render it and check the refusals of the schema
+./scripts/check.sh
 
 # Render the manifests locally
 helm template onicost-agent charts/onicost-agent --set endpoint=https://ingest.example.test
@@ -43,14 +43,15 @@ helm template onicost-agent charts/onicost-agent --set endpoint=https://ingest.e
 | Path | Content |
 |---|---|
 | `charts/onicost-agent/` | Onicost agent chart |
-| `.github/workflows/ci.yml` | Lints and renders the chart on every push to `main` and every pull request |
+| `scripts/check.sh` | Checks of the chart: lint, rendering and refusals of the schema |
+| `.github/workflows/ci.yml` | Runs `scripts/check.sh` on every push to `main` and every pull request |
 | `.github/workflows/release.yml` | Publishes the chart to `ghcr.io` on every version tag |
 
 ## Release
 
 Versions follow semantic versioning. The chart `version` and `appVersion` move together with the agent image: chart version `0.1.0` deploys the image `ghcr.io/samytsb/onicost-agent:0.1.0`.
 
-To release a version: update `version` and `appVersion` in `charts/onicost-agent/Chart.yaml` and the [CHANGELOG](CHANGELOG.md), then push the tag `onicost-agent-<version>`. The `release` workflow checks that the tag matches the chart, packages it and pushes it to `oci://ghcr.io/samytsb/charts`.
+To release a version: update `version` and `appVersion` in `charts/onicost-agent/Chart.yaml` and the [CHANGELOG](CHANGELOG.md), then push the tag `onicost-agent-<version>`. The `release` workflow checks that the tag matches the chart, runs `scripts/check.sh`, packages the chart and pushes it to `oci://ghcr.io/samytsb/charts`.
 
 ## License
 

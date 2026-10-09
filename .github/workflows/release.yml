@@ -37,8 +37,8 @@ jobs:
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
       # The same checks as ci.yml: a tag on a commit that never passed them must not publish a chart.
-      - run: helm lint charts/onicost-agent --strict
-      - run: helm template onicost-agent charts/onicost-agent --set endpoint=https://ingest.example.test > /dev/null
+      - name: Check the chart
+        run: ./scripts/check.sh
       - run: helm package charts/onicost-agent
       - name: Log in to ghcr.io
         env:
