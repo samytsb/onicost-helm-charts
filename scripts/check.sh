@@ -22,6 +22,13 @@ refuses() {
 helm lint "$chart" --strict
 helm template onicost-agent "$chart" "${endpoint[@]}" > /dev/null
 
+# The notes name the image tag that is deployed.
+notes=$(helm install onicost-agent "$chart" --dry-run=client "${endpoint[@]}" --set image.tag=9.9.9)
+if [[ $notes != *'Onicost agent 9.9.9 is installed'* ]]; then
+  echo 'NOTES.txt does not name the deployed image tag' >&2
+  exit 1
+fi
+
 refuses 'endpoint is required'
 refuses 'endpoint is required' --set endpoint=
 refuses schema --set endpoint=ingest.example.test
