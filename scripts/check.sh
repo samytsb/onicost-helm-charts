@@ -22,14 +22,17 @@ refuses() {
 helm lint "$chart" --strict
 helm template onicost-agent "$chart" "${endpoint[@]}" > /dev/null
 
-# podLabels may be null, and never change the selector labels.
-helm template onicost-agent "$chart" "${endpoint[@]}" --set podLabels=null > /dev/null
-helm template onicost-agent "$chart" "${endpoint[@]}" --set-json podLabels=null > /dev/null
-manifests=$(helm template onicost-agent "$chart" "${endpoint[@]}" --set podLabels.team=x --set 'podLabels.app\.kubernetes\.io/name=evil')
-if [[ $manifests == *'name: evil'* ]]; then
+# Every optional value set: each optional branch is rendered, and podLabels never change the selector labels.
+helm lint "$chart" --strict -f scripts/values-all.yaml
+manifests=$(helm template onicost-agent "$chart" -f scripts/values-all.yaml)
+if grep -q 'app.kubernetes.io/name: other' <<< "$manifests"; then
   echo 'podLabels override the selector labels' >&2
   exit 1
 fi
+
+# podLabels may be null.
+helm template onicost-agent "$chart" "${endpoint[@]}" --set podLabels=null > /dev/null
+helm template onicost-agent "$chart" "${endpoint[@]}" --set-json podLabels=null > /dev/null
 
 # The notes name the image tag that is deployed.
 notes=$(helm install onicost-agent "$chart" --dry-run=client "${endpoint[@]}" --set image.tag=9.9.9)

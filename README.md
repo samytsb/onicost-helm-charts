@@ -44,6 +44,7 @@ helm template onicost-agent charts/onicost-agent --set endpoint=https://ingest.e
 |---|---|
 | `charts/onicost-agent/` | Onicost agent chart |
 | `scripts/check.sh` | Checks of the chart: lint, rendering and refusals of the schema |
+| `scripts/values-all.yaml` | Every optional value set, rendered by `scripts/check.sh` |
 | `.github/workflows/ci.yml` | Runs `scripts/check.sh` on every push to `main` and every pull request |
 | `.github/workflows/release.yml` | Publishes the chart to `ghcr.io` on every version tag |
 
