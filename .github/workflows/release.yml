@@ -43,6 +43,12 @@ jobs:
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
       # Chart version N deploys the image N: the agent release must have published it, publicly.
+      # The agent image package may be private: inspect it with the job token.
+      - uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Check that the agent image is published
         env:
           VERSION: ${{ steps.version.outputs.version }}
