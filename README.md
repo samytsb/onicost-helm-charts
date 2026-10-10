@@ -50,7 +50,7 @@ helm template onicost-agent charts/onicost-agent --set endpoint=https://ingest.e
 
 ## Release
 
-Versions follow semantic versioning. The chart `version` and `appVersion` move together with the agent image: chart version `0.1.0` deploys the image `ghcr.io/samytsb/onicost-agent:0.1.0`.
+Versions follow semantic versioning. The chart `version` and `appVersion` move together with the agent image: chart version `0.2.0` deploys the image `ghcr.io/samytsb/onicost-agent:0.2.0`.
 
 To release a version:
 
