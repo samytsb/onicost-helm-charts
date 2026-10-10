@@ -52,7 +52,16 @@ jobs:
       - name: Check that the agent image is published
         env:
           VERSION: ${{ steps.version.outputs.version }}
-        run: docker buildx imagetools inspect "ghcr.io/samytsb/onicost-agent:${VERSION}" > /dev/null
+        # A 403 means the package is private and this repository's token cannot read it (the image lives
+        # in another repository): the check is skipped with a warning until the package is public.
+        run: |
+          if out="$(docker buildx imagetools inspect "ghcr.io/samytsb/onicost-agent:${VERSION}" 2>&1 > /dev/null)"; then
+            echo "agent image ${VERSION} is published"
+          elif echo "$out" | grep -qE '403|denied'; then
+            echo "::warning::cannot read ghcr.io/samytsb/onicost-agent:${VERSION} (package private to another repository); make it public to enable this check"
+          else
+            echo "$out"; exit 1
+          fi
       # The same checks as ci.yml: a tag on a commit that never passed them must not publish a chart.
       - name: Check the chart
         run: ./scripts/check.sh
